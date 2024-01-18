@@ -2,33 +2,58 @@ package main
 
 import (
 	"fmt"
-	"strconv"
+	"log"
+	"os"
 )
 
-func Hello(nome string) {
-	fmt.Println("Hello", nome, "!")
-}
+var (
+	cara, coroa int
+)
 
-func Sum(a, b int) int {
-	return a + b
-}
+func lancarMoeda(lado string) {
+	switch lado {
+	case "cara":
+		cara++
+	case "coroa":
+		coroa++
 
-func ConvertAndSum(a int, b string) (total int, err error) {
-	i, err := strconv.Atoi(b)
-
-	if err != nil {
-		return
+	default:
+		fmt.Println("caiu em pé")
 	}
-
-	total = a + i
-
-	return
 }
 
 func main() {
-	Hello("Pedro")
-	fmt.Println("total:", Sum(10, 29))
+	a, b := 10, 13
 
-	total, err := ConvertAndSum(10, "29")
-	fmt.Println("total:", total, err)
+	if a > b {
+		fmt.Println("A é maior que B")
+	} else if a < b {
+		fmt.Println("B é maior A")
+	} else {
+		fmt.Println("B é iagaul a A")
+	}
+
+	switch {
+	case a > b:
+		fmt.Println("A é maior que B")
+	case a < b:
+		fmt.Println("B é maior A")
+	default:
+		fmt.Println("B é iagaul a A")
+	}
+
+	file, err := os.Open("hello.txt")
+	if err != nil {
+		log.Panic(err)
+	}
+
+	data := make([]byte, 100)
+
+	_, err = file.Read(data)
+
+	if err != nil {
+		log.Panic(err)
+	}
+
+	fmt.Println(string(data))
 }
