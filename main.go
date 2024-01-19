@@ -26,6 +26,10 @@ import "fmt"
 // 	c.Pai = pai
 // }
 
+type Document interface {
+	Doc() string
+}
+
 type Pessoa struct {
 	Nome   string
 	Idade  int
@@ -46,6 +50,30 @@ type PessoaJuridica struct {
 
 func (p PessoaFisica) String() string {
 	return fmt.Sprintf("Olá meu nome é %s e eu tenho %d anos.", p.Nome, p.Idade)
+}
+
+func (pf PessoaFisica) Doc() string {
+	return fmt.Sprintf("Meu cpf é %s.", pf.cpf)
+}
+
+func (pf PessoaJuridica) Doc() string {
+	return fmt.Sprintf("Meu cnpj é %s.", pf.Cnpj)
+}
+
+func show(d Document) {
+	if d, ok := d.(PessoaFisica); ok {
+		fmt.Println((d.Sobrenome))
+	}
+
+	switch d.(type) {
+	case PessoaFisica:
+		fmt.Println((d.(PessoaFisica).Sobrenome))
+	case PessoaJuridica:
+		fmt.Println((d.(PessoaJuridica).RazaoSocial))
+	}
+
+	fmt.Println(d)
+	fmt.Println(d.Doc())
 }
 
 func main() {
@@ -83,6 +111,6 @@ func main() {
 			Status: true,
 		}, "Gabriel", "70683499190",
 	}
-
+	show(p)
 	fmt.Println(p)
 }
